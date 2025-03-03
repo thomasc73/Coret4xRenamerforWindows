@@ -1,6 +1,6 @@
-# Coret4xRenamerforMac
+# Coret4xRenamerforWindows
 
-**Coret4xRenamerforMac** adalah solusi untuk mengganti nama file *Faktur Pajak Masukan* dan *Faktur Pajak Keluaran* secara otomatis, masal, super cepat, dan aman.
+**Coret4xRenamerforWindows** adalah solusi untuk mengganti nama file *Faktur Pajak Masukan* dan *Faktur Pajak Keluaran* secara otomatis, masal, super cepat, dan aman.
 
 ## Latar Belakang
 
@@ -23,4 +23,16 @@ Dengan Coret4xRenamerforMac, Anda dapat mengganti nama file dengan format yang l
 
 - **Faktur Pajak Keluaran:**  
   `FPK-Nama Pembeli-Tanggal-Nomor Seri Faktur.pdf`
+
+
+cara Install & Penggunaan
+
+cara Install
+1. Install Python
+2. Install pdfplumber
+
+Cara penggunaan
+
+python windows-pdf-renamer.py
+
 
