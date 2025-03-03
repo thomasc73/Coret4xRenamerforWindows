@@ -16,13 +16,31 @@ def extract_fields(pdf_path, file_type):
         print(f"Failed to open {pdf_path}: {e}")
         return None
 
+    # Dictionary to map Indonesian month names to numbers
+    month_map = {
+        'Januari': '01', 'Februari': '02', 'Maret': '03', 'April': '04',
+        'Mei': '05', 'Juni': '06', 'Juli': '07', 'Agustus': '08',
+        'September': '09', 'Oktober': '10', 'November': '11', 'Desember': '12'
+    }
+
     # Extract date by searching for pattern "DD MonthName YYYY"
-    date_match = re.search(r"(\d{1,2}\s+(Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s+\d{4})", text)
-    date_str = date_match.group(1) if date_match else "TanggalUnknown"
+    date_str = "TanggalUnknown"  # Default value
+    date_pattern = r"(\d{1,2})\s+(Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s+(\d{4})"
+    date_match = re.search(date_pattern, text)
+    
+    if date_match:
+        day = date_match.group(1).zfill(2)  # Pad single digit days with leading zero
+        month = month_map[date_match.group(2)]
+        year = date_match.group(3)
+        date_str = f"{year}-{month}-{day}"
 
     # Extract Tax Invoice Code and Serial Number
     kode_match = re.search(r"Kode dan Nomor Seri Faktur Pajak:\s*([\d]+)", text)
     kode_str = kode_match.group(1) if kode_match else "KodeUnknown"
+
+    # Extract reference number
+    ref_match = re.search(r"\(Referensi:\s*([^\)]+)\)", text)
+    ref_str = ref_match.group(1).strip() if ref_match else "RefUnknown"
 
     if file_type == "Output":
         # For OutputTaxInvoice, get Buyer Name from "Pembeli Barang Kena Pajak/Penerima Jasa Kena Pajak:" section
@@ -33,8 +51,8 @@ def extract_fields(pdf_path, file_type):
         else:
             buyer = "PembeliUnknown"
         
-        # Format new name: FPK-BUYER NAME-SIGNATURE DATE-Tax Invoice Code and Serial Number
-        new_name = f"FPK-{buyer}-{date_str}-{kode_str}.pdf"
+        # New format: FPK-DATE-KODE-BUYER-REF
+        new_name = f"FPK-{date_str}-{kode_str}-{buyer}-{ref_str}.pdf"
         return new_name
     
     elif file_type == "Input":
@@ -46,8 +64,8 @@ def extract_fields(pdf_path, file_type):
         else:
             seller = "PKPUnknown"
         
-        # Format new name: FPM-Taxable Entrepreneur-SIGNATURE DATE-Tax Invoice Code and Serial Number
-        new_name = f"FPM-{seller}-{date_str}-{kode_str}.pdf"
+        # New format: FPM-DATE-KODE-SELLER-REF
+        new_name = f"FPM-{date_str}-{kode_str}-{seller}-{ref_str}.pdf"
         return new_name
     
     else:
