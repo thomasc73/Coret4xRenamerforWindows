@@ -21,10 +21,10 @@ Walaupun format tersebut cukup jelas, ketika jumlah file banyak, kita cenderung 
 Dengan Coret4xRenamerforMac, Anda dapat mengganti nama file dengan format yang lebih sederhana dan mudah diingat, misalnya:
 
 - **Faktur Pajak Masukan:**  
-  `FPM-Nama Lawan Transaksi-Tanggal-Nomor Seri Faktur.pdf`
+  `FPM-Tanggal-Nama Lawan Transaksi-Nomor Seri Faktur-Referensi.pdf`
 
 - **Faktur Pajak Keluaran:**  
-  `FPK-Nama Pembeli-Tanggal-Nomor Seri Faktur.pdf`
+  `FPK-Tanggal-Nama Pembeli-Nomor Seri Faktur-Referensi.pdf`
 
 
 cara Install & Penggunaan
