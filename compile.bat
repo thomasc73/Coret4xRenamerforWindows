@@ -1,1 +1,1 @@
-C:\Users\Threadripper\AppData\Local\Programs\Python\Python312\Scripts\pyinstaller --onefile windows-pdf-renamer.py
+C:\Users\Threadripper\AppData\Local\Programs\Python\Python312\Scripts\pyinstaller --onefile coretax-pdf-renamer.py

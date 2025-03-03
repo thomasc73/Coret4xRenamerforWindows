@@ -29,7 +29,11 @@ Dengan Coret4xRenamerforMac, Anda dapat mengganti nama file dengan format yang l
 
 cara Install & Penggunaan
 
-cara Install
+download coretax-pdf-renamer.exe for windows bisa langsung dipakai untuk rename file dalam folder
+
+
+
+cara Install jika python terinstall
 1. Install Python
 2. Install pdfplumber
 
