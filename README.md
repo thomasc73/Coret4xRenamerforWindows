@@ -1,6 +1,6 @@
 
 FORKED FROM # Coret4xRenamerforMac
-# Coret4xRenamerforWindows
+# CoretaxPDFRenamerforWindows
 
 **Coret4xRenamerforWindows** adalah solusi untuk mengganti nama file *Faktur Pajak Masukan* dan *Faktur Pajak Keluaran* secara otomatis, masal, super cepat, dan aman.
 
