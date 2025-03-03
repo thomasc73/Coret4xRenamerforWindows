@@ -1,7 +1,7 @@
 import os
 import re
 import pdfplumber
-from tkinter import Tk, filedialog, messagebox
+from tkinter import Tk, filedialog, messagebox, Label, Button
 
 def extract_fields(pdf_path, file_type):
     # Open and extract text from PDF
@@ -13,7 +13,7 @@ def extract_fields(pdf_path, file_type):
                 if page_text:
                     text += page_text + "\n"
     except Exception as e:
-        print(f"Failed to open {pdf_path}: {e}")
+        print(f"Gagal membuka folder {pdf_path}: {e}")
         return None
 
     # Dictionary to map Indonesian month names to numbers
@@ -113,36 +113,58 @@ def rename_files_in_folder(folder_path):
                     print(f"Error renaming {filename}: {e}")
                     failed += 1
             else:
-                print(f"Failed to extract data from {filename}")
+                print(f"Gagal mengambil data dari  {filename}")
                 failed += 1
     
     return renamed, failed
 
 def main():
     root = Tk()
-    root.withdraw()  # Hide main Tkinter window
-    root.title("PDF Invoice Renamer")
+    root.title("CORETAX PDF RENAMER")
     
-    # Set icon for dialog boxes
-    root.iconbitmap(default=None)  # You can set a custom icon here if you have one
+    # Set window size and position it in the center of the screen
+    window_width = 400
+    window_height = 200
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    center_x = int(screen_width/2 - window_width/2)
+    center_y = int(screen_height/2 - window_height/2)
+    root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
     
-    folder_selected = filedialog.askdirectory(title="Select folder containing PDF files")
-    if not folder_selected:
-        messagebox.showinfo("Info", "No folder selected. Application will exit.")
-        return
+    # Add description label
+    description = """Aplikasi ini akan membantu anda me-rename file PDF Faktur Pajak Masukan dan Keluaran
+    secara otomatis dengan format FPK/FPM-tanggal-nomor FP-Nama WP-referensi """
+    label = Label(root, text=description, wraplength=350, justify="center", pady=20)
+    label.pack()
     
-    # Show progress message
-    print(f"Processing files in: {folder_selected}")
-    print("This may take a few moments, please wait...")
+    # Create and pack the button
+    def select_folder():
+        folder_selected = filedialog.askdirectory(title="PILIH FOLDER YANG AKAN DIPROSES")
+        if not folder_selected:
+            messagebox.showinfo("Info", "TIDAK ADA FOLDER YANG DIPILIH.")
+            return
+            
+        # Show progress message
+        status_label.config(text="Sedang memproses... Harap menunggu...")
+        root.update()
+        
+        total_renamed, total_failed = rename_files_in_folder(folder_selected)
+        
+        status_label.config(text=f"Complete! Files renamed: {total_renamed}, Failed: {total_failed}")
+        
+        # Ask if user wants to open the folder
+        if total_renamed > 0:
+            if messagebox.askyesno("Open Folder", "Apakah anda mau membuka folder dengan file yang telah diproses?"):
+                os.startfile(folder_selected)  # Windows-specific command to open folder
     
-    total_renamed, total_failed = rename_files_in_folder(folder_selected)
+    button = Button(root, text="Select Folder", command=select_folder, padx=20, pady=10)
+    button.pack()
     
-    messagebox.showinfo("Complete", f"Renaming process complete.\n\nFiles renamed: {total_renamed}\nFiles failed: {total_failed}")
+    # Add status label
+    status_label = Label(root, text="", wraplength=350, justify="center", pady=20)
+    status_label.pack()
     
-    # Ask if user wants to open the folder
-    if total_renamed > 0:
-        if messagebox.askyesno("Open Folder", "Do you want to open the folder with renamed files?"):
-            os.startfile(folder_selected)  # Windows-specific command to open folder
+    root.mainloop()
 
 if __name__ == "__main__":
     main()
