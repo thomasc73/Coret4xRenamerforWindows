@@ -35,6 +35,6 @@ cara Install
 
 Cara penggunaan
 
-python windows-pdf-renamer.py
+python coretax-pdf-renamer.py
 
 
